@@ -28,7 +28,7 @@ const logout =() =>{
               <LinkContainer to='/BuyAndSell'><Nav.Link>Buy/Sell</Nav.Link></LinkContainer>
               <LinkContainer to='/Profile'><Nav.Link>Profile</Nav.Link></LinkContainer>
             </Nav>
-            <Form className="d-flex">
+            {/* <Form className="d-flex">
                   <Form.Control
                     type="search"
                     placeholder="Search"
@@ -36,7 +36,7 @@ const logout =() =>{
                     aria-label="Search"
                   />
                 <Button variant="outline-success">Search</Button>
-            </Form>
+            </Form> */}
             <Navbar.Collapse className="justify-content-end">
                 
                 <Button onClick={logout} variant="outline-secondary">Logout</Button>

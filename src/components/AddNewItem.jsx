@@ -7,6 +7,10 @@ import Modal from 'react-bootstrap/Modal';
 
 
 function AddNewItem() {
+
+  const [validated, setValidated] = useState(false);
+
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => {
@@ -17,15 +21,24 @@ function AddNewItem() {
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
+    //const [userId, setUserId] = useState("");
 
+ 
     
     const addNewItem=(e)=>{
       e.preventDefault();
+      const form = e.currentTarget;
+      if(form.checkValidity() === false){
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      setValidated(true);
       console.log("function called")
-      Axios.post("http://localhost:3001/api/items/AddItem", {     
+      Axios.post("http://3.144.156.111/api/items/AddItem", {     
         "name" : name,
         "description" : description,
         "price" : price,
+        "userId" : JSON.parse(sessionStorage.getItem('userId')),
   }).then((response) =>{
       alert("Addition Successful!")
   });
@@ -44,25 +57,28 @@ function AddNewItem() {
           <Modal.Title>Add New Item</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={addNewItem}>
+          <Form noValidate validated={validated} onSubmit={addNewItem}>
           
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Item Name</Form.Label>
-              <Form.Control name="item" type="text" placeholder="item" autoFocus value={name} onChange={(e)=> setName(e.target.value)}/>
+              <Form.Control required name="item" type="text" placeholder="item" autoFocus value={name} onChange={(e)=> setName(e.target.value)}/>
+              <Form.Control.Feedback type="invalid">Please enter item name.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
               <Form.Label>Price</Form.Label>
-              <Form.Control name="price" type="text" placeholder="Price" value={price} onChange={(e)=> setPrice(e.target.value)}/>
+              <Form.Control required name="price" type="text" placeholder="Price" value={price} onChange={(e)=> setPrice(e.target.value)}/>
+              <Form.Control.Feedback type="invalid">Please enter price.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Label>Description</Form.Label>
-              <Form.Control name="desc" as="textarea" rows={3} value={description} onChange={(e)=> setDescription(e.target.value)} />
+              <Form.Control required name="desc" as="textarea" rows={3} value={description} onChange={(e)=> setDescription(e.target.value)} />
+              <Form.Control.Feedback type="invalid">Please enter description.</Form.Control.Feedback>
             </Form.Group>
             
             <Button variant="secondary" onClick={handleClose}>
             Close
             </Button>
-            <Button type='submit' name="save" variant="primary" onClick={handleClose}>
+            <Button type='submit' name="save" variant="primary" >
               Save Changes
             </Button>
           

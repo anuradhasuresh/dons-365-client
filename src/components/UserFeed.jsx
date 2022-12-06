@@ -10,7 +10,7 @@ import './UserFeed.css'
 function UserFeed() { 
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-      axios.get("http://localhost:3001/api/posts/GetPosts")
+      axios.get("http://3.144.156.111/api/posts/GetPosts")
           .then((response) => {
               const allPosts = response.data.response;
               setPosts(allPosts)

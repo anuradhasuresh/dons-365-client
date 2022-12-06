@@ -11,7 +11,7 @@ function BuyAndSell() {
   const [items, setItems] = useState([]);
   
   useEffect(() => {
-    axios.get("http://localhost:3001/api/items/getItems")
+    axios.get("http://3.144.156.111/api/items/getItems")
     .then((response) => {
         const allItems = response.data.response;
         setItems(allItems)
@@ -37,10 +37,9 @@ function BuyAndSell() {
               <Card.Title><h4>{item.name}</h4></Card.Title>
               <Card.Text>
               <h6>
-                {
-                  item.description
-                }
+                { item.description }
               </h6>
+              <h6>{item.uploadDate}</h6>
               </Card.Text>
             </Card.Body>
           </Card>

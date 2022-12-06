@@ -1,5 +1,5 @@
 import React, { useState} from "react"
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 import Axios from "axios";
 import { useEffect } from "react";
 
@@ -13,7 +13,7 @@ export default function (props) {
 
   const navigate = useNavigate();
   useEffect(() => {
-    const userId = sessionStorage.getItem('user');
+    const userId = sessionStorage.getItem('id');
     if(userId) {
       navigate('/UserFeed')
     }
@@ -21,7 +21,7 @@ export default function (props) {
   const registerUser=(e)=>{
       e.preventDefault();
       console.log("function called")
-      Axios.post("http://localhost:3001/api/user/RegisterUser", {
+      Axios.post("http://3.144.156.111/api/user/RegisterUser", {
       "name": fullName,
       "address" : address,
       "email" : email,
@@ -34,13 +34,16 @@ export default function (props) {
   };
   const loginUser=(e)=>{
     e.preventDefault();
-    Axios.post("http://localhost:3001/api/user/Login", {
+    Axios.post("http://3.144.156.111/api/user/Login", {
         "email" : email,
         "password" : password,
     }).then((response) =>{
         alert("Login Successful!")
         navigate('/UserFeed');
-        sessionStorage.setItem('user', JSON.stringify(response))
+        sessionStorage.setItem('userId', JSON.stringify(response.data.id))
+        sessionStorage.setItem('name', JSON.stringify(response.data.name))
+        sessionStorage.setItem('email', JSON.stringify(response.data.email))
+        sessionStorage.setItem('phoneNo', JSON.stringify(response.data.phoneno))
     }).catch((error) =>{
       console.error(error.message)
       alert("Please enter valid login credentials")
@@ -71,6 +74,7 @@ export default function (props) {
                 placeholder="Enter email address"
                 value={email} 
                 onChange={(e)=> setEmail(e.target.value)}
+                required
               />
             </div>
             <div className="form-group mt-3">
@@ -82,6 +86,7 @@ export default function (props) {
                 placeholder="Enter password"
                 value={password} 
                 onChange={(e)=> setPassword(e.target.value)}
+                required
               />
             </div>
             <div class="d-grid gap-2 mt-3">
@@ -112,6 +117,7 @@ export default function (props) {
               placeholder="e.g Jane Doe"
               value={fullName} 
               onChange={(e)=> setName(e.target.value)}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -122,6 +128,7 @@ export default function (props) {
               placeholder="janedoe@gmail.com"
               value={email} 
               onChange={(e)=> setEmail(e.target.value)}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -132,6 +139,7 @@ export default function (props) {
               placeholder="Password"
               value={password} 
               onChange={(e)=> setPassword(e.target.value)}
+              required
             />
           </div>
           <div className="form-group mt-3">
@@ -142,6 +150,7 @@ export default function (props) {
                   placeholder="111-222-3333"
                   value={phoneNumber} 
                   onChange={(e)=> setPhoneNumber(e.target.value)}
+                  required
                 />
               </div>
               <div className="form-group mt-3">
@@ -152,6 +161,7 @@ export default function (props) {
                   placeholder="Enter address"
                   value={address} 
                   onChange={(e)=> setAddress(e.target.value)}
+                  required
                 />
               </div>
           <div class="d-grid gap-2 mt-3">

@@ -9,7 +9,7 @@ function AddNewPost() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   function addNewPost() {
-    Axios.post("http://localhost:3001/api/posts/CreatePost",{
+    Axios.post("http://3.144.156.111/api/posts/CreatePost",{
       "title" : title,
       "description" : description,
     }).then((response) =>{
